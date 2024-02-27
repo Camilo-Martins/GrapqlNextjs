@@ -16,26 +16,21 @@ const server = new ApolloServer({
     token = req.headers["authorization"];
 
     if (token) {
-      if(token.startsWith('Bearer')){
-        token = req.headers["authorization"].split(' ')[1] || "";
+      if (token.startsWith("Bearer")) {
+        token = req.headers["authorization"].split(" ")[1] || "";
       }
-     
 
       try {
-        const user = jwt.verify(
-         
-          token,
-          process.env.SECRET
-        );
-       
+        const user = jwt.verify(token, process.env.SECRET);
+
         return {
           user,
         };
       } catch (error) {
         console.log(error);
       }
-    }else{
-      console.log("esto no debe pasar")
+    } else {
+      console.log("esto no debe pasar");
     }
   },
 });

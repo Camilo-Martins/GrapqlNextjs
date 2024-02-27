@@ -117,7 +117,8 @@ const resolvers = {
       }
 
       try {
-        const orders = await Order.find({ seller: user.id.toString() });
+        const orders = await Order.find({ seller: user.id.toString() }).populate('client');
+        console.log(orders)
         return orders;
       } catch (error) {
         console.log(error);
@@ -208,6 +209,7 @@ const resolvers = {
           $sort: {total: -1}
         }
       ]);
+     
       return sellers;
     },
     getProductsByName: async (_, {text}) =>{
@@ -310,8 +312,8 @@ const resolvers = {
       }
 
       try {
-        await product.findOneAndDelete({ _id: id });
-        return "Producto Eliminado.";
+        await Product.findOneAndDelete({ _id: id });
+        return id;
       } catch (error) {
         console.log(error);
       }
@@ -385,8 +387,8 @@ const resolvers = {
       }
 
       try {
-        await Client.findOneAndDelete({ _id: id });
-        return "Cliente eliminado.";
+       const deletedClient =  await Client.findOneAndDelete({ _id: id });
+        return id;
       } catch (error) {
         console.log(error);
       }
@@ -580,7 +582,7 @@ const resolvers = {
       //Eliminar
       try {
         await Order.findOneAndDelete({_id: id});
-        return "Pedido eliminado"
+        return id
       } catch (error) {
         console.log(error);
       }
